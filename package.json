@@ -1,0 +1,31 @@
+{
+  "name": "julia",
+  "version": "0.1.1",
+  "description": "Projektbeschreibung",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "fastify": "^4.21.0",
+    "handlebars": "^4.7.8",
+    "sqlite": "^5.0.1",
+    "sqlite3": "^5.1.6",
+    "@fastify/view": "^8.0.0",
+    "@fastify/static": "^6.10.2",
+    "@fastify/formbody": "^7.4.0"
+  },
+  "engines": {
+    "node": "12.x"
+  },
+  "repository": {
+    "url": "https://glitch.com/edit/#!/hello-sqlite"
+  },
+  "license": "ISC",
+  "keywords": [
+    "node",
+    "glitch",
+    "sqlite"
+  ]
+}

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anzeige Webseite</title>
+    <style>
+        html {
+          filter: invert(100%);
+        }
+      
+        #domain {
+          font-family: Hershley Light;
+          font-size: 13.5pt;
+        }
+        
+        @font-face {
+            font-family: Hershley Light;
+            src: url("https://cdn.glitch.global/37938366-8530-4f5a-b254-7d1ede1f923a/Hershey-Noailles-Times-Duplex-Italic-Light.otf?v=1718205067097");
+        }
+      
+        #slugList { 
+          font-family: Hershley Bold;
+          font-size: 14.5pt;
+          line-height:18pt;
+          letter-spacing: 0.01em;
+        }
+      
+        .slug {
+          display: inline-block;
+          position: relative;
+        }
+      
+        .slug::after {
+          content: "";
+          position: absolute;
+          left: 0;
+          bottom: -13px;
+          width: 100%;
+          height: 10px;
+          background: rgba(0, 0, 0, 0.6);
+          filter: blur(5px);
+          transform: skew(var(--shadow-skew-deg), 0deg) scale(1, 1.2);
+        }
+      
+        .no-shadow::after {
+          display: none;
+        }
+      
+        .dynamic-skew .slug::after {
+          transform: skew(var(--skew-deg), 0deg) scale(1, 1.2);
+        }
+      
+        @font-face {
+            font-family: Hershley Bold;
+            src: url("https://cdn.glitch.global/37938366-8530-4f5a-b254-7d1ede1f923a/Hershey-Noailles-Times-Duplex-Italic-Bold.otf?v=1718204337180");
+        }
+      
+        .slash {
+          font-family: Hershley Bold;
+          -webkit-text-stroke-width: 1px;
+          -webkit-text-stroke-color: black;
+        }
+      
+        .dash {
+          font-family:Hershley Bold;
+          color: black;
+        }
+      
+    </style>
+</head>
+  
+<body>
+    <div id="urlAnzeige">
+        <span id="domain">http:<span class="slash">//</span>www.soft-encyclopedia.net</span><span class="slash">/</span>
+        <span id="slugList" class="slug-shadow"></span>
+    </div>
+  
+    <script>
+        const slugList = document.getElementById('slugList');
+
+        // Liste der Wörter, die angezeigt werden sollen
+        const wordsList = ["Wort1", "Beispiel", "Technologie", "Innovation", "Zukunft", "Entwicklung", "Erfolg"];
+
+        let eventSource;
+
+        window.addEventListener('load', function () {
+            eventSource = new EventSource('/sse/slugs');
+            eventSource.addEventListener('message', function(event) {
+                // Spracherkennung erkannt - jetzt ein zufälliges Wort aus der Liste anzeigen
+                const randomWord = getRandomWordFromList();
+                updateWordList(randomWord);
+            });
+            eventSource.addEventListener('clearSlugs', function() {
+                // Falls Slugs entfernt werden sollen, wird hier keine Funktion ausgeführt
+            });
+            updateSkewBasedOnTime();
+            setInterval(updateSkewBasedOnTime, 30 * 60 * 1000);
+        });
+
+        // Diese Funktion gibt ein zufälliges Wort aus der Liste zurück
+        function getRandomWordFromList() {
+            const randomIndex = Math.floor(Math.random() * wordsList.length);
+            return wordsList[randomIndex];
+        }
+
+        // Fügt das zufällige Wort zur Liste hinzu (an das Ende)
+       function updateWordList(word) {
+    // Sicherstellen, dass das Wort nicht leer ist
+    if (!word || word.trim() === "") {
+        return; // Nichts tun, wenn das Wort leer ist
+    }
+    
+    const wordSpan = document.createElement('span');
+    wordSpan.classList.add('slug');
+    const textNode = document.createTextNode(word + '/');
+    wordSpan.appendChild(textNode);
+    slugList.appendChild(wordSpan);
+
+    // Optional: Zufällige Leerzeichen einfügen
+    if (slugList.childNodes.length > 1) {
+        const randomSpaces = '\u00A0'.repeat(Math.floor(Math.random() * 50) + 1);
+        if (randomSpaces !== '') {
+            const spaceSpan = document.createElement('span');
+            spaceSpan.classList.add('no-shadow');
+            spaceSpan.textContent = randomSpaces;
+            slugList.appendChild(spaceSpan);
+        }
+    }
+}
+
+
+        function updateSkewBasedOnTime() {
+            const now = new Date();
+            const hours = now.getHours();
+            const minutes = now.getMinutes();
+            const skewDeg = calculateSkewDegree(hours, minutes);
+            document.documentElement.style.setProperty('--shadow-skew-deg', `${skewDeg}deg`);
+        }
+
+        function calculateSkewDegree(hours, minutes) {
+            const totalMinutes = hours * 60 + minutes;
+            if (totalMinutes <= 6 * 60) {
+                return -60;
+            } else if (totalMinutes <= 12 * 60) {
+                return (totalMinutes - 6 * 60) / (6 * 60) * 60 - 60;
+            } else if (totalMinutes <= 18 * 60) {
+                return (totalMinutes - 12 * 60) / (6 * 60) * 60;
+            } else {
+                return 60;
+            }
+        }
+    </script>
+</body>
+</html>
