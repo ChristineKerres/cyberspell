@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lauftext im Tab</title>
+
+    <style>
+        * {
+            font: 18px Hershey;
+        }
+
+        @font-face {
+            font-family: Hershey;
+            src: url(img/Hershey-Noailles-Futura-Triplex-Regular.otf);
+        }
+
+        button {
+            background-color: transparent;
+            border: none;
+            vertical-align: super;
+            position: absolute;
+            transition: filter 0.3s ease;
+        }
+
+        button:hover {
+            font-size: smaller;
+        }
+
+        .first-button:before,
+        .second-button:before,
+        .third-button:before,
+        .fourth-button:before,
+        .fifth-button:before,
+        .sixth-button:before,
+        .seventh-button:before,
+        .eighth-button:before {
+            perspective: 50px;
+            perspective-origin: 45% 80%;
+        }
+
+        .first-button::after,
+        .second-button::after,
+        .third-button::after,
+        .fourth-button::after,
+        .fifth-button::after,
+        .sixth-button::after,
+        .seventh-button::after,
+        .eighth-button::after {
+            content: '';
+            color: rgb(0, 0, 0);
+            rotate: 180deg;
+            top: 7px;
+            right: 0;
+            bottom: -1px;
+            left: 0;
+            transform: scaleY(0.9) rotateX(0deg);
+            transform-origin: 50% 90%;
+            transform: skew(30deg, 0deg) scale(1, 1.2);
+            opacity: 0;
+            transition: opacity 0.3s ease, filter 0.3s ease;
+        }
+
+        .first-button::after {
+            content: '(ꕀ)';
+            position: absolute;
+        }
+
+        .second-button::after {
+            content: '(∼)';
+            position: absolute;
+        }
+
+        .third-button::after {
+            content: '(꒰)';
+            position: absolute;
+        }
+
+        .fourth-button::after {
+            content: '(➿)';
+            position: absolute;
+        }
+
+        .fifth-button::after {
+            content: '(-)';
+            position: absolute;
+        }
+
+        .sixth-button::after {
+            content: '(﹏)';
+            position: absolute;
+        }
+
+        .seventh-button::after {
+            content: '(๑)';
+            position: absolute;
+        }
+
+        .eighth-button::after {
+            content: '(◡)';
+            position: absolute;
+        }
+
+        .first-button:hover::after,
+        .second-button:hover::after,
+        .third-button:hover::after,
+        .fourth-button:hover::after,
+        .fifth-button:hover::after,
+        .sixth-button:hover::after,
+        .seventh-button:hover::after,
+        .eighth-button:hover::after {
+            opacity: 0.3;
+            filter: blur(0.1px);
+        }
+
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <button class="first-button" data-slug="enter-u(i)rl-from-multiple-directions">(ꕀ)</button>
+    <button class="second-button" data-slug="simply-suggesting-no-straight-line">(∼)</button>
+    <button class="third-button" data-slug="a-repository-of-meaning">(꒰)</button>
+    <button class="fourth-button" data-slug="detached-from-the-institutionalised-thought">(➿)</button>
+    <button class="fifth-button" data-slug="holding-things-in-a-particular-powerful-relation-to-one-another-and-to-us">(-)</button>
+    <button class="sixth-button" data-slug="accumulated-in-hybrid-space-and-linked-to-the-matter-i--r--l">(﹏)</button>
+    <button class="seventh-button" data-slug="as-a-soft-blend-of-factual-and-non~factual">(๑)</button>
+    <button class="eighth-button" data-slug="acting-as-a-reading-room">(◡)</button>
+
+    <canvas id="connectionCanvas"></canvas>
+
+    <script>
+        // Funktion zum Anzeigen der aktuellen URL
+        function displayCurrentURL() {
+            const currentURL = window.location.href;
+            document.title = currentURL; // Setze die URL als Titel des Dokuments (optional)
+        }
+
+        // Rufe die Funktion beim Laden der Seite auf
+        window.addEventListener('load', function () {
+            clearSlugs(); // Slugs löschen, wenn die Seite geladen wird
+            randomizeButtonPositions(null); // Den Parameter für den geklickten Button weglassen
+            displayCurrentURL(); // Aktualisiere die angezeigte URL
+        });
+
+        // Funktion zum Löschen der Slugs
+        function clearSlugs() {
+            fetch('/api/delete-slugs', {
+                method: 'DELETE'
+            })
+            .then(response => {
+                if (response.ok) {
+                    console.log('Slugs erfolgreich gelöscht');
+                } else {
+                    console.error('Fehler beim Löschen der Slugs');
+                }
+            })
+            .catch(error => {
+                console.error('Fehler beim Senden des Löschbefehls für die Slugs:', error);
+            });
+        }
+
+        document.querySelectorAll('button').forEach(button => {
+            button.addEventListener('click', function () {
+                const slug = button.getAttribute('data-slug'); // Hole den Slug aus dem data-slug-Attribut
+                addSlug(slug);
+                updateURL(slug); // Aktualisiere die URL
+            });
+        });
+
+        // Funktion zum Hinzufügen eines Slugs
+        function addSlug(slug) {
+            fetch('/api/add-slug', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ slug })
+            })
+            .then(response => {
+                if (response.ok) {
+                    console.log('Slug erfolgreich hinzugefügt');
+                } else {
+                    console.error('Fehler beim Hinzufügen des Slugs');
+                }
+            })
+            .catch(error => {
+                console.error('Fehler beim Senden des Slugs:', error);
+            });
+        }
+
+        // Funktion zum Aktualisieren der URL
+        function updateURL(slug) {
+            const currentURL = window.location.href;
+            const urlParts = currentURL.split('/');
+            const updatedURL = urlParts.slice(0, urlParts.length - 1).join('/') + '/' + slug;
+            window.history.pushState({}, document.title, updatedURL);
+            displayCurrentURL(); // Aktualisiere die angezeigte URL
+        }
+
+        // Funktion zum zufälligen Positionieren der Buttons
+        function randomizeButtonPositions(clickedButton) {
+            const buttons = document.querySelectorAll('button');
+            const windowWidth = window.innerWidth;
+            const windowHeight = window.innerHeight;
+
+            buttons.forEach(button => {
+                if (button !== clickedButton) {
+                    const randomX = Math.floor(Math.random() * (windowWidth - button.offsetWidth));
+                    const randomY = Math.floor(Math.random() * (windowHeight - button.offsetHeight));
+
+                    button.style.left = `${randomX}px`;
+                    button.style.top = `${randomY}px`;
+                }
+            });
+        }
+
+        // Rufe die Funktion auch bei Änderungen der Fenstergröße auf
+        window.addEventListener('resize', function () {
+            randomizeButtonPositions(null); // Den Parameter für den geklickten Button weglassen
+        });
+
+        // Canvas zum Zeichnen der "Linien"
+        const canvas = document.getElementById('connectionCanvas');
+        const ctx = canvas.getContext('2d');
+        let clickedButtons = [];
+
+        // Funktion zum Ändern der Größe des Canvas entsprechend der Fenstergröße
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        // Funktion zum Ermitteln der Position eines Buttons
+        function getButtonPosition(button) {
+            const rect = button.getBoundingClientRect();
+            return {
+                x: rect.left + rect.width / 2,
+                y: rect.top + rect.height / 2
+            };
+        }
+
+        // Funktion zum Zeichnen der "Linien" zwischen den angeklickten Buttons
+        function drawLines() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            if (clickedButtons.length > 1) {
+                for (let i = 1; i < clickedButtons.length; i++) {
+                    const startX = clickedButtons[i - 1].x;
+                    const startY = clickedButtons[i - 1].y;
+                    const endX = clickedButtons[i].x;
+                    const endY = clickedButtons[i].y;
+                    const deltaX = endX - startX;
+                    const deltaY = endY - startY;
+                    const steps = Math.max(Math.abs(deltaX), Math.abs(deltaY)) / 10; // Anpassen dieses Werts, um den Abstand zwischen den Symbolen zu erhöhen/verringern
+                    const xIncrement = deltaX / steps;
+                    const yIncrement = deltaY / steps;
+                    let x = startX;
+                    let y = startY;
+
+                    for (let j = 0; j <= steps; j++) {
+                        ctx.fillText('°', x, y);
+                        x += xIncrement;
+                        y += yIncrement;
+                    }
+                }
+            }
+        }
+
+        // Event-Listener für alle Buttons hinzufügen
+        document.querySelectorAll('button').forEach(button => {
+            button.addEventListener('click', function () {
+                const position = getButtonPosition(button);
+                clickedButtons.push(position);
+                drawLines();
+                randomizeButtonPositions(button); // Den geklickten Button übergeben
+                copyURLToClipboard(); // URL in die Zwischenablage kopieren
+            });
+        });
+
+        // Titel-Scrolling-Funktion
+        const titleText = "ckeck-address-bar-";
+        let titleIndex = 0;
+
+        function scrollTitle() {
+            document.title = titleText.substring(titleIndex) + titleText.substring(0, titleIndex);
+            titleIndex = (titleIndex + 1) % titleText.length;
+        }
+
+        setInterval(scrollTitle, 200); // Geschwindigkeit des Scrollens in Millisekunden
+
+        // Funktion zum Kopieren der aktuellen URL (einschließlich Slugs) in die Zwischenablage
+        function copyURLToClipboard() {
+            const pathArray = window.location.pathname.split('/').filter(Boolean); // Pfad in ein Array von Teilen aufteilen und leere Teile filtern
+            const slugPath = pathArray.join('/'); // Slugs innerhalb des Pfads wieder zusammensetzen
+            const fullURL = window.location.origin + '/' + slugPath; // Vollständige URL einschließlich des Basis-URL und des Slugs
+
+            navigator.clipboard.writeText(fullURL)
+                .then(() => {
+                    console.log('URL wurde erfolgreich in die Zwischenablage kopiert: ', fullURL);
+                    // Hier könntest du auch eine Benachrichtigung oder Feedback für den Benutzer anzeigen
+                })
+                .catch(err => {
+                    console.error('Fehler beim Kopieren der URL in die Zwischenablage: ', err);
+                    // Hier könntest du ebenfalls eine Benachrichtigung oder Feedback für den Benutzer anzeigen
+                });
+        }
+    </script>
+</body>
+</html>

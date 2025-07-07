@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyberspells</title>
+    <style>
+        body {
+            font-family: Xanh Mono;
+            font-size: 13.5pt;
+            line-height: 18pt;
+            letter-spacing: 0.01em;
+            -webkit-text-stroke: 1px;
+            background-color: white;
+            color:white;
+        }
+
+        .cyberspell-manifesto {
+            font-family: Geneva;
+            font-size: 13.5pt;
+            line-height: 18pt;
+            letter-spacing: 0.01em;
+            paint-order: stroke fill;
+            -webkit-text-stroke: 0.4em #797A7C;
+        }
+
+        @font-face {
+            font-family: Xanh mono;
+            src: url("https://cdn.glitch.global/d9ff60e9-0491-4b6e-863b-a684196672da/XanhMono-Regular.ttf?v=1743344660528");
+        }
+        @font-face {
+            font-family: Geneva;
+            src: url("https://cdn.glitch.global/d9ff60e9-0491-4b6e-863b-a684196672da/Geneva.ttf?v=1743345231251");
+        }
+
+        #slugList {
+            font-family: Xanh mono;
+            font-size: 14.5pt;
+            line-height: 18pt;
+            letter-spacing: 0.01em;
+            -webkit-text-stroke: 1px;
+        }
+      #whisper {
+        
+    display: none;
+    position: fixed;
+    bottom: 50%;
+    left: 50%;
+    transform: translate(-50%, 50%);
+    opacity: 0;
+    transition: opacity 1s ease-in-out; /* Sanftes Einblenden */
+}
+      button, #output,
+        #loading {
+        font-family: Xanh mono ;
+        font-size: 25pt;
+            line-height: 22pt;
+            letter-spacing: 0.01em;
+            -webkit-text-stroke: 1px;
+        background-color:white;
+          color:#797A7C;
+          border-radius:15px;
+          padding: 8px;
+      }
+      
+      
+      @keyframes blinkStroke {
+    0% { text-shadow: 0 0 0px #797A7C; }
+    50% { text-shadow: 0 0 6px #282828; }
+    100% { text-shadow: 0 0 0px #797A7C; }
+}
+
+.blinking-text {
+    line-height: 1.5vw;
+    transform: rotate(90deg);
+    animation: blinkStroke 3s infinite alternate ease-in-out;
+    color: black;
+}
+    </style>
+</head>
+
+<body>
+<div 
+      style="
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        background: white;
+        color: black;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: -1;
+        filter: invert(0);
+             -webkit-text-stroke: 0px; 
+      "
+    >
+      <pre class="blinking-text" style="font-size: 1vw; line-height: 1.5vw; transform: rotate(90deg);">
+MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMNXWMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMNXWMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMNXWMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMNXWMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMNXWMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMWK0c.  . .xWMMMMMMMMMMMMNXWMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMWXOkOXMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+      MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMNXWMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMNd'..lXMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM...MMMMMMNXWMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMNd'..lXMMMMMMMMMWXOkOXMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM ...  
+MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMNXWMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMNl. ..MMMMMMMMMMMMMMMMNl. ..MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMNXWMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMWK0c.  . .xWMMMMMMMMMMMMMMMMMMMMNl. ..MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMWXOkOXMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+                   MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM...MMMMMMMNXWMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMWXOkOXMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+               MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMNXWMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMNd'..lXMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+            MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMNXWMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMNXWMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMWK0c.  . .xWMMMMMMMMMMMMMMMMMMMMNXWMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM...MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMNXWMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+            MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMNXWMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM 
+MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMNXWMMMMMMMMMMMMWK0c.  . .xWMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMNl. ..MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM 
+MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMNXWMMMMMMMM...MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM 
+            MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMNXWMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM 
+MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMNXWMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMoc,..:: 
+MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMNXWMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM 
+MMMMMMMMMMMMMMMMMMMMMMMMMWNK00KNWMMMMMMMMMMMMMMMWWWWMMMMMMMMMM0lkWMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMWWWMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMWNNWMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM 
+                 MMMMNkc,....,lOWWX0XWMMMMMWKdc::cxKWMMMMW0o;..:dKWMMWXXXXWMMMMMMWWMMMMMMMMWX0KKNWMMMMMMMMMMMWKKXWMMMMMNKKOoONXKK00O0KXWMMMMMMMMMMMMMMMMMNOo:;,;oKWK00NMMMMX0KXNXNWMMMMMMMMMMMMMMNK0KXWMMMMMMMMMMMMXKKNMMMMWXK0KNMMMMWXK0XWMMMMMMMMMMNK0KXWMMMMNK0KNMMMMMMMMMMMMMMMMMM 
+MMMMMMMMMMMMMMMMMMMMMNk;. .    .'lxc'.,oXMMMNd'.    .,kWMMXo.. .  .,kWWx,'';OWWWNWNx:o0WMMMMNk;...:0MMMMMMMMMMMXc.,xNMMMNd.....,'.......,cOWMMMMMMMMMMMMMNk;..   .cK0:.'dNWW0c.''''cKWWNNWWMWKXWMWKl...,xWMMMMMMMMMMWx'.cKMMM0c..'kWMMMKc..'lKMMMMMMMMNd'..lXMMMWx'..;kWMMMMMMMMMMMMMMMM 
+MMMMMMMMMMMMMMMMMMMMXo..  ..''..;d;.   .oNMXko;......ckNMNl. ...  ..cko'.  .,::;;;,. .:KMMMNo,..  .cdddddddddddl,..:OWMMNl.   ..      . .,xOKWMMMMMMMMMMWx. ......;ONKxONWO:'. ..  .;c:;;;coc',kNO:... .;oddddddddddo:..,dNMMNx'..:odddl'.  .lXMMMMMMMW0:..'ldddo;.   ,OMMMMMMMMMMMMMMMM ...   
+MMMMMMMMMMMMMMMMMMMXl.  ..:l;;:...,,'. .;KK:.....;,.:KMMMNkl;lc. .;kXx..,cc;,,;;;,'..;0WMMMKc'...',;;,''.....''.....lNMMMk..',;;,;;;,,'..',.'xWMMMMMMMMMNk:...,cc;.'xNMMMWx,....;::;,,:oxo;.   'xd,....',;;''..  .','....,OMMMK:..,''''''.   ,0MMMMMMMMWd..'''''''.   .dWMMMMMMMMMMMMMMM 
+MMMMMMMMMMMMMMMMMMNo. ...',.......c0O;  ,kl.  .';,;..lkkKMMMWNo.  ,0Mk..ldxkl;;,',::..xWMMM0c,...:coko::....'cc,.. .lNMMMk..:okxocc:;,;c;.   'kWMMMMMMMMMM0,.........oNMMMNXO:.,dxxxc;;:cdd:..';cc;'..,:cxxcc;....;l:.   ,ONkc:..;c:c:;c;.   ,0MMMMMM0oc,..::::;:c'.  .dWMMMMMMMMMMMMMMM 
+MMMMMMMMMMMMMMMMMMO;......   ...:oxkx,  ,c.  ..;'.,,....:OXWMNl....xM0:'...;,.    .''.,0MMMO, ......',...'ll..'....,kWMMMO'.......';c;.':,. ..:KMMMMMMMMMXl.     .   .lXMM0l;.....';..:lc'.,'.....   .....''...:o,.......lXNl.  ....:l,.... .cXMMMMMMk'   ...'c:'.... 'kMMMMMMMMMMMMMMMMoc,..:: 
+             MMMMWNKo........,:k0l.... .,c,...';,';;.   ..,xWNl....dWKdl;....';.   ....oWMMNd'..'c'.....,ckx'...,;;dNMMMM0,.......,:oc....... .xWMMMMMMMWx. .  ........:xkkc. .,;....cXMW0;... ..... .:;.....';dOc....,,lKMW0;......'...;;..;OWMMMMMMXo.......'..':'..oNMMMMMMMMMMMMMMMM 
+            MMMMXo:c;....oOxOXXNXc. ..,;dXXl..,,.'ll.  .. .dK0:.'..dNx.......lKo.   ...;KMMMW0c.......  .;lccok0XNNWMMMMMNxo;....      . ......oNMMMMMMM0,... .'lk0o. ....xXklcl;....dWXd:'....,x00d'........ .clclxOKNNNMMMMXx,.. ... ..'lkKWMMMMMMMMN0c.. ....  .:d0NMMMMMMMMMMMMMMMMM 
+MMMMMMMMMMMMMMMWx.   ...;KMMMMMMMO;.'oKNWMWx,;okl.':. .'..,;'...'..xNo. .....dWXdcc'....dKKNMWx.   ...;dx0NWMMMMMMMMMMMMMMMWo....   ...  ...'d0XWMMMMMMXc.ll. .lNMM0,.   .xWMMMK:...'kMX:.  ...;0MMK;.. ....lxkXWWMMMMMMMMMMMMO'   ...  .:XMMMMMMMMMMMMXc.  ...   .kMMMMMMMMMMMMMMMMMMMM 
+MMMMMMMMMMMMMMMK:. .....'cxXMMMMMWXkONMMMMWd. .dO;.'. .,..o:.  ....kXc.  ...'kMMMMNo......,kWNo.  ....dWMMMMMMMMMMMMMMMMMMMXc.....  ...  ...'OMMMMMMMMNd;xXo. .xW0oc...';cOMMMM0,...,0MNl. ....'OMMO,   ...:KMMMMMMMMMMMMMMMMMx.   ...  .lNMMMMMMMMMMMMK:   ...   ,OMMMMMMMMMMMMMMMMMMMM 
+            MMMWx. ...,.   ,0MMMMWNNXKOkkKW0;. ,0Nc... ':':Ol. ....;00;  ....,0MMMMWd....  .dWXc.  ....kMMMMMMMMMMMMMMMMMMMMK:...    ...  ....kMMMMMMMW0olll,. .kWx.   .dNWMMMMMk....:KMWo.  ....xMMx. .....cNMMMMMMMMMMMMMMMMWd. .....  .dWMMMMMMMMMMMM0,   ......;KMMMMMMMMMMMMMMMMMMMM 
+MMMMMMMMMMMMMMXc.  .;;.  .cXMMMXo;,ox,..cXKdc:xNNl....,c,:0k. .. ..;;.  ....:KMMMMWd.......dWK;. ....,0MMMMMMMMMMMMMMMMMMMM0,...   .''.  ....xWMMMMMMWK0c.  . .xWO,   .xWMMMMMWx....cNMWd. .....dWWd. .....oWMMMMMMMMMMMMMMMMNl. .....  .kMMMMMMMMMMMMMk.   ...  .cXMMMMMMMMMMMMMMMMMMMM 
+MMMMMMMMMMMMMMO' . .:,   .dWMMMK:. ,l' .:KXKKXWMNo..,,'..'OXl. .......  ....lNMMX0Oc....:k0XMO' . ...;KMMMMMMMMMMN0Ok0WMMMMk....  ..;;.. .'..dWMMMMMMMMX:.  ..'kWX:.. .xWMMMMMNo....oWMWd.   ...oWNl.  ....xMMMMMMMMMMWXOkOXMK:......   ,OMMMMMMMMMMMMWd.   ...  .oWMMMMMMMMMMMMMMMMMMMM 
+MMMMMMMMMMMMMWd.  .;c.   'OMMMMNl. .:,  ;x:..cxoc'.,:':;.cXMKo'.;ool:. .....oWMWd.......dWMMMk.   ...cXMMMMMMMMMM0,..cXMMMWd....   .:;.. .'..xWMMMMMMMMK:. .;kKNMWo. ..xWMMMMMXc....xMMWd.   ...,cc'.  ...'OMMMMMMMMMMNl..'kM0,.  ... ..;KMMMMMMMMMMMMNl.  ....  .xWMMMMMMMMMMMMMMMMMMMM 
+MMMMMMMMMMMMMX:.  .cc.  .;KMMMMWx. .,'. ,d:',ol.  .,;.;'.xWMMWXKKWMNl.  ....kMMNl.  ....xWMMWd. .....oWMMMMMMMMMMO' .:XMMMNl.....  .l:.  .'..xWMMMMMMMMK;...'ooxXMk' .'kWMMMMMK;...'OMMWo.  ....       ...;KMMMMMMMMMMXc. 'kMk'   ...  .cXMMMMMMMMMMMMXc.  ...   'OMMMMMMMMMMMMMMMMMMMMM 
+MMMMMMMMMMMMM0;.. .o:.  .lNMMMMM0, ..;;,lKXK0Oc. ..,;,;.,0MMMMMMMMMK:.  ...'OMMXc.  ....kMMMNl.  ....xWMWOk0XWMMNo. .dWMMMX:...    'l;   .,..kMMMMMMMMMK;.,. . .dWKc.'cKMMMMMMO'...;KMMNl.  .'..  .... ...:XMWKkOKNMMMO, .:KWd. .....  .oWMMMMMMMMMMMM0;   ...   ;0MMMMMMMMMMMMMMMMMMMMM 
+MMMMMMMMMMMMMN0k:.,o;   .dWMMMMMNc. .xNNWMXo'......,;;,.cNMMMMMMMMM0, . ...;KMMNOd:....,0MMMX:......'OMMO,..lXMMWx,;dXMMMM0;....   ,o'   .,.'OMMMMMMNkc:..cc.  .;KWXKXNWMMMMMMx....cXMMXc.  .'.....   ....lNMXl..,OMMMK:'l0WNo.  ..... .xWMMMMMMMMMMMMO'   .... .:XMMMMMMMMMMMMMMMMMMMMM 
+ MX         MMNl.:d'   'kMMMMMMW0ddxXMMMMNo.     .,l:'.xWMMMMMMMMMk' . ...cXMMMMWd....'cd0W0;   ...,0MNo. .dWMMMNXNWMMMMMO'...  ..:l. . .,.;KMMMMMMXc.  .cd'   .dNMMMMMMMMMMWd....oNMMK;.  .,.    .  ....dWMO' .:KMMMWXXWMMXc.  ...   'OMMMMMMMMMMMMWx. . ...  .lNMMMMMMMMMMMMMMMMMMMMM 
+MMMMMMMMMMMMMMMK:.ll.   ;KMMMMMMMMMMMWNXXNWx. .,:'.c0o.,0MMMMMMMMMWx.   ...oNMMMMK:... . .xWO' . ...:XMKc..;0MMMMMMMMMMMMMx.... ...:c.  .''.cXMMMMMMNl....,l;...;xNMMMMMMMMMMNl....dWMMO' . .,. .     ...'kMWd...dWMMMMMMMMMK; . ...   ,0MMMMMMMMMMMMWo.  ..... .dWMMMMMMMMMMMMMMMMMMMMM 
+MMMMMMMMMMMMMMM0'.oc.  .cXMMMMMMMMMMMXl''cKk. .l0:.oK:.cNMMMMMMMMMNo. .....dNKkk0o.... ..;KWx.  ....lNMWXOkkXMMMMMMMMMMMMWo..... .':,.. .,..dWMMMMMMWd.  .'::,.:KMMMMMMMMMMMMK:...'OMMWx. ..',.       ...,0MMN0kx0WMMMMMMMMMO'   ...  .:XMMMMMMMMMMMMNl.  ... . .kMMMMMMMMMMMMMMMMMMMMMM 
+MMMMMMMMMMMMMMMk.'o:.  .oWMMMMMMMMMMMXc..,Ok;..dO,.dk'.xWMMMMMMMMMXc.  ....c:'.....'.....xWNo.  ....dWMMW0o:kWMMMMMMMMMMMNc..... .',. . .,.,0MMMMMMMMO'   .;;;..xNNNWMMMMMMMM0,...,0MMNl.  .,,..'.... ...:KMMWXx:oXMMMMMMMMMx. . ...  .lNMMMMMMMMMMMMK:.  ...   ,0MMMMMMMMMMMMMMMMMMMMMM 
+MMMMMMMMMMMMMMWd.,o,   .xWMMMMMMMMMMMWKkO0XNXKKNO'.dd.,0MMMMMMMMMMK;.  ....'.   .',..'..lXMXc.  ....lOkd:..'OMMMMMMMMMMMMK:...  ..''.. .'..oNMMMMMMMMK:.  .,,,;..;,:0MMMMMMMMk....:XMM0;   .,'.oKo.  ....;xkxl,..lNMMMMMMMMWd. .....  .dWMMMMMMMMMMMM0,   ... ..:KMMMMMMMMMMMMMMMMMMMMMMMMMMM 
+MMMMMMMMMMMMMMNo.;o'   'OMMMMMMMMMMMMMW0o:lKMMMMk.'dc.:0WWMMMMMMMMO' . .,''..';::,.,xK0OXMMK;   ....'..','.;0MMMMMMMMMMMM0,... ...':c..',.;0MMMMMMMMMWd. . ';.;'.  .lXMMMMMMWx....lNMM0c,..',.,0Wd.  ..'.'''',,..dWMMMMMMMMNl.  ....  .kMMMMMMMMMMMMMk.   ...  .cNMMMMMMMMMMMMMMMMMMMMMM 
+MMMMMMMMMMMMMMNl.:l. . ,0MMMMMMMMMMMMMWOclOWMNXKo.,o;..,cOMMMMMMMMk. . 'cc::::dx,.,kK0XMMMMO,   .cxxl'';c;.cXMMMMMMMMMMMMk............;;.'kWMMMMMMMMMM0,   .;'';. . .kWMMMMMNo....dNNNNWk'.;,.lNNl.  .,oxd:,;c:.'OMMMMMMMMMX:.  ...   'OMMMMMMMMMMMMWd. ...... .oWMMMMMMMMMMMMMMMMMMMMMM 
+MMMMMMMMMMMMMMXc.::. ..:XMMMMMMMMMMMMMMMWWMMWx,'..;l.   'OMMMMMMMWo.  ..,'....';;..''.:0MMMk.   ...'...',..oWMMMMMMMMMMMWd..;;;,,;::;;,...l0WMMMMMMMMMWkcl:.';.,,.  .:XMMMMMXc....dd;,cd:.;:.,OMX:.  ..'.'..','.;0MMMMMMMMM0,   ...   ;KMMMMMMMMMMMMNl.  ...   .xWMMMMMMMMMMMMMMMMMMMMMM 
+MMMMMMMMMMMMMMK:.:;.';:xNMMMMMMMMMMMMMMMMMMMNl. ..;:. ..:KMMMMMMMNl.  ........ .....  .lNMWd. ........;l,..xWMMMMMMMMMMMNl..';::ldxc...  .,kWMMMMMMMMMMWWMK:.,,';. ..,OMMMMMK;.'..'.. ...:l'.dWM0, . ......'c:..cXMMMMMMMMMk' . ...  .cXMMMMMMMMMMMMXc.  ....  'OMMMMMMMMMMMMMMMMMMMMMMM 
+MMMMMMMMMMMMMMK;.;,.oNWWMMMMMMMMMMMMMMMMMMMMX:.  .;;. ..lNMMMMMMMX:.  ...  ..,cl,... . 'kMNl.  .......;dc'.,ldXMMMMMMMMMX:....',',;'..,,;dKWMMMMMMMMMMMMMMWk..;',,.,x0XMMMMMO'..'',,''',cl,.lXMMk'   ....  .lo;.'co0WMMMMMWx.  ....  .oWMMMMMMMMMMMMK;   ... . ;KMMMMMMMMMMMMMMMMMMMMMMM 
+MMMMMMMMMMMMMMK;.,'.dWMMMMMMMMMMMMMMMMMMMMMM0,   .;'   .xWMMMMMMM0,   ... ..;O0x;.......lNX:.. ... .  .....  ,0MMMMMMMMM0,...'dx;.....c0NMMMMMMMWXkdxXMMMMMNl.',,;.,0MMMMMMWx.....':c;;;,..oXMMWx. .....  ... ... .dWMMMMMNo.  ...   .xWMMMMMMMMMMMMO'   ...  .:XMMMMMMMMMMMMMMMMMMMMMMM ..   ,0MM
+MMMMMMMMMMMMMM0;.'..kMMMMMMMMMMMMMMMMMMMMMMMO'   .,.   ,OMMMMMMMMO' . ...  .lO;.. ... . ;K0;   ...  ....... .:KMMMMMMMMMO'...,c:,......cooKMMMMWO;..:KMMMMMM0,.,:;'.xWMMMMMWo....''.......,kWMMNo.  ...   ... ... .xMMMMMMXc.  ....  'OMMMMMMMMMMMMWx.  ..... .lNMMMMMMMMMMMMMMMMMMMMMMM 
+MMMMMMMMMMMMMM0,...'OMMMMMMMMMMMMMMMMMMMMMMWx. . ',. ..:KMMMMMMMWx.  ....  .oKc.  ......,OO'   ...  ... ... .cXMMMMMMMMWx....cd;........ .oNMMMXc. .cxx0WMMMWd..ok;.oWMMMMMNl....'..     ..oXMMXc.  ...   ... ..  'kMMMMMMK;.  ...   ,0MMMMMMMMMMMMWo.  ..... .dWMMMMMMMMMMMMMMMMMMMMMMM 
+MMMMMMMMMMMMMM0;....cdONMMMMMMMMMMMMMMMMMMMWo.  .''.  .lNMMMMMMMWo.  ..... .xNx;,.....:k0Nx. . ...  .'. ... .cNWWNNMMMMWo....ok' .. ......cXMMMK;. ....cXMMMMXc.cOc.lNMMMMMK:...'dkdlcclox0WMMMK;.  ...   .'. ... ,OMWNNWMO'   ...  .:XMMMMMMMMMMMMNl.  ... . .kMMMMMMMMMMMMMMMMMMMMMMMM 
+MMMMMMMMMMMMMMK;     .:KMMMMMMMMMMMMMMMMMMMXc.  .'. . .xWMMMMMMMXc.  ....  'OMWNXc.''.oWMNo.  ...   .ldoo:'.'dXkc;ckXWMNc....x0;    ....lOKWMMMKl',;;,;oXMMNOo;..dl.:XMMMMM0,...,0MMMMMMMMMMMMMO'   ...  .;dool,..:00l;:d0d. .....  .lNMMMMMWWWMMMMK:.  ...   ,0MMMMMMWWMMMMMMMMMMMMMMMM 
+MMMMMMMMMMMMMMK:  ....cXMMMMMMMMMMMMMMMMMMMK;   .'.   'OMMMMMMMMK;. .... . ;KMMMNl.''.lNMXc.  ...   'OMMNd'.,oc.. .'oXMK:...'OXc.   .''.oWMMMMMWNXXNNNNWMMMXc.  .::.:KMMMMMk....:XMMMMMMMMMMMMMk.  ....  .lNMMO;.'cl'. ..c:.  ..... .dWMMMMWkclxXMM0,   ...  .:KMMMMMKocd0WMMMMMMMMMMMMM  ...  
+MMMMMMMMMMMMMMX:. ..;cxNMMMMMMMNOddONMMMMMMO'   ...  .:KMMMMMMMMO,  ....  .cXMMMNl.''.lNMK:.  ... . ,0MMXc..... ..;kXNM0,...;0Wo.   .',.:XMMMMMMMMMMMMMMMMMWx.   .'..cokNMWx....lNMMMMMMMMMMMMWd.  ....  .dWMWx..... ..,d0c.  ...   .kMMMMM0, .'oddc. . ...  .cNMMMMNl. .cddd0WMMMMMMMMM 
+MMMMMMMMMMMMMMNc. ....lNMMMMMMK:. ..cKMMMMWx.   .... .lNMMMMMMMMk. . ...  .oNMMMNc.,'.oNMO,   ...  .:XMMWXxc,. .,,';oKMk....:XMk.    ';.,OMMMMMMMMMMMMMMMMMM0; . ...  .:XMNl....dWMMMMMMMMMMMMNl.  ... . .kMMMNOo:...';,,;..  ...   ,OMMMMMKd::o:...  . ...  .oWMMMMNxc:ll. .lNMMMMMMMMM 
+            MMWo.  . .lNMMMMMWO:,....dWMMMNl. .....  .dWMMMMMMMWd.  ...   .dWMMMX:.,'.dWMk. .....  .lNMMMMWO'. ,o,  ;0Wd....lNM0, .. .:'.xWMMMMMMWMMMMMMMMMMXc.   ... .cXMXc....kMMMMMMMMMMMMMX:.  ...   ,0MMMMMXc. .lc. .  .....   ;KMMMMMMMWWKc..... ..... .xWMMMMMMMWNx'.'xWMMMMMMMMM 
+MMMMMMMMMMMMMMWx.  ...cXMMMMMMMWN0xxkKWMMMXc.. ...   'kMMMMMMMMNl. .... . .kMMMM0,.;'.xWWd.  ...   .dWMMMMX:. .dd...lNNl....dWMK: .. .:;.lNMMMMNxccoXMMMMMMMWo.    .. .lNMK;...'OMMMMMMMMMMMMM0, . ... ..:KMMMMWx. .ck:....   ...  .cXMMMMMMMMMWNKk,.  ...   'OMMMMMMMMMMNX00NMMMMMMMMMM 
+MMMMMMMMMMMMMMMO'   ..:XMMMMMMMMMMMMMMMMMMXo;.....   ,0MMMMMMMMX:.  ... . ,0MMMMO'.;.'OMNl.. ....  .kMMMMWd. .cXXOxxKMXc....kMMNl.   .;:.;KMMMMXc  'OMMMMMMMWx...   . .oWMO'...;KMMMMMMMMMMMMMk'   ...  .cNMMMM0;. ,ON0kd;. .....  .oWMMMMMMMMMMMM0;  .... . ;KMMMMMMMMMMMMMMMMMMMMMMMMM MMMMM 
+MMMMMMMMMMMMMMMK;  ..,oXMMMMMMMMMMMMMMMMMMXkxc....  .:XMMMMMMMM0,   ...  .:KMMMWd.';.;KMX:. ....   ,OMMMMWOocl0MMMMMMM0,...,0MMWd.    ,l..:cl0MX:. .oO0NMMMMMX0Oxl:'. .xWWx....cXMMMMMMMMMMMMWx.   ...  .oWMMMMKdl:xWMMMNo.  ...   .xWMMMMMNXXNWMMO'   .... .:XMMMMMNKKXWMMMMMMMMMMMMMMM 
+MMMMMMMMMMMMMMMNxcld0NWMMMMMMMMMMMMMMMMMMWd........ .oNMMMMMMMMO'   .... .lNWWWX:.;,..cdd,   ...  .;KMMMMMMNOxOXWMMMMXl....;KMMMk.    'l;   .oWX:. ...'kXXNMMMMMMMX:. 'OMWo....oNMMMMMMMMMMMMNo. ...... .xWMMMMMWKxkKNMMXc. ....   'OMMN0K0c''c0MWx. .....  .lNMWK0Kd'.,xWMMMMMMMMMMMMMM 
+MMMMMMMMMMMMMMMMMWWNNWMMMMMXxokKWWWMMMMMMXc.  ..... .xWMMMMMMMWx.  ..... .oNk:::.':'   .;.   ...  .cXMMMMMWk'..cXMMMXl. ...cXMMM0:.....lc...'oNNxc:,.:c,,,dNMMMMMMO, .:KMNl....xWMMMMMMMMMMMMXc.. ... . 'OMMMMMMK:..,kWMK; . ......:KMNo....  ;0WNo. .......'xWMO,.... .dNWMMMMMMMMMMMMM 
+MMMMMMMMMMMMMWKxol:;:0MMMMNl. .cxONMMWX0xl'......   .lKWMMMMMN0c.  ....  .dk,.  .::.   ',. .....  .oNMNkloo,. .lNMWXl. ....oWMMMWX0KO;.ld...';ONK00k;':. .,kKKNWMWd. .lkkd,....:okNMMMMMMMMWXx,.  ... . ;0MW0oldc.  ,0MMO'   ...'cd0WWk'   ....,cxc.  ....:lkNMXc.   . .';dNMMMMMMMMMMMM 
+            MWd.    .:KMMNo.  ..:0MMMNd'.  .,'........'dNMMW0c.';'..'..,clc... .:l'  . .. ........'xNNk' ......xMWKc.. ....xWMMMMMMMNl.:k:.....,'..,'.... ....,lKXc. ,xd'........cKMMMMMMMKl'....... ...cKNKc.......cXMMk'......',;ONNk'  ......,o:.......,'oNNKc. .......;KMMMMMMMMMMMMMMMMM 
+MMMMMMMMMMMMMMK;.... .;kXXk,.  'kWMMMK:.  ....'......  .xWMK:. .,'.,c;.'ld:. ..:d;.  .... ........',;;'....;:..:0MK;. .';..,:oKMMWNNKl.'ol....  ..... .        .ckkc..::...cc...';OWMMMMMWx'.. ..'......,;;,....,:,.'okk:..........';;,..'::'.,d0x'.........'::;'..,c;....:OWMMMMMMMMMMM 
+MMMMMMMMMMMMMMWx.   ..'',;,.. .xWMMMMO'   .,,,;:,,,..  .oWMO' . .;;,.',''''''':c,.........',''''''''''''',,',;'.l0x..',:c;;;..xWMKxc....;;,,'..;lol,. .. ..  ....:0d.   .,;::,,,..lNMMMMMNo'....''''''''''''''',,';;'',''',,';;,'..',,,,,'.';'.oXo..,',;,''.';;,''''.;;.,kNWMMMMMMMMMMMM 
+            MMMNl.  ..cc,,:,..dNMMMMMk.   .,,'',,,;'.  .dWMk. . .,,'''',;:::;,,...':,. . .;,''''''''''''''''.'.......;,'',,;..;oxOOc.. .,;';:..;;'..   ...;;,:,.'kNd.   .,''''','.lNMMMMMK:.  .';''''''''''''''''',;;;;;;;:;'',,'''''''''''',..lKl.':,'','''''''''''',,.;0MMMMMMMMMMMMMM 
+             MMMXl.  ..',,,.,xNMMMMMM0,......    ...'..'kWM0,  .... ..,,'...... ...co' ...,;;;;;;;;;;;;;;;;;.. .  ............. ,ONx... .''''........... .';;'..'o0kcc;',;:::::;',xWMMMMMXc.  .';;;;;;;;;;;;;;;;;,..  ..  .,;;;;;;;;;;;;;;;;;'.,l,..';;;;;;;;;;;;;;;;;,..oKWMMMMMMMMMMMM 
+             MMMNd..  ..';oKWMMMMMMMNkdO0l.......,kXKOONMMNd. .:c...:0Xl. . ...'ckNNo. .lXNWWWWWWWWWWWWWWWNo..............'xx;,xNMNx,..'dkkkOOOxxO00k:...',','..,kNWWNXXWWWWWWNXXNMMMMMMWO,. ,ONWWWWWWWWWWWWWWWWO,. ...  ;0NWWWWWWWWWWWWWWWXo...  .dNWWWWWWWWWWWWWWWNk,..lXMMMMMMMMMMMM 
+MMMMMMMMMMMMMMMMMMW0l'.'dKNMMMMMMMMMMMMMMMKkkO00Ok0NMMMMMMMMW0dox00OOKWW0dooodO0KWMMMNOdoOWMMMMMMMMMMMMMMMMMXkocoxdoxkkkkkxONMNXWMMMWKdlkNMMMMMMMMMMMMXxlkXXXNXkd0WMMMMMMMMMMMMMMMMMMMMMMMWKxoxXMMMMMMMMMMMMMMMMMN0xdoxdookNMMMMMMMMMMMMMMMMNOoddoldKMMMMMMMMMMMMMMMMMKdoxXWMMMMMMMMMMMM 
+MMMMMMMMMMMMMMMMMMMMWKkONMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMWWMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM 
+MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM::::;',MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM 
+MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMWK0c.  . .xWMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM 
+             MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM::::;',MMMMMMMMMMMMMMMMMMMMMMMMMMMMMM...MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM 
+             MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM 
+MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM...MMMMMMMM..cKNKc.MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM 
+            MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM 
+             MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM...MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM..cKNKc.MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM 
+MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM 
+MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM 
+
+</pre
+      >
+    </div>
+
+    
+    
+    <div class="cyberspell-manifesto">
+      <br/> # 𓂀 CYBERSPELL - MANIFESTO 𓂀
+        <br/><br /># A seance in three acts: I. A gut feeling or Intuition II. A
+        Spell III. A medium and A conjurer <br /># role: the programmer as the
+        fortuneteller <br /># role: the computer as the oracle <br /># role: the
+        user as the conjurer <br /># role: the phone as a medium bridging user
+        and computer <br /># role: the code as spell conjuring the oracle
+
+        <br /><br /># I. ACT: THE FORTUNE-TELLER HAS AN INTUITION, A GUT FEELING
+        FROM DEEP WITHIN <br /># A FORESIGHT OF WHAT IS TO BE SUMMONED; KNOWING
+        BEFORE THE KNOWING <br /># PROGRAMMING IS AN ENCHANTMENT; THE STRUCTURE
+        UNDERNEATH THE ORACLE <br /># THE PROGRAMMER FORTELLS THE FUTURE; THE
+        PROGRAM CREATES IT <br /># STIRRED BY THE FORTUNETELLER'S INTUITION; THE
+        ORACLE AWAKENS
+      
+      <p style="font-family: Xanh Mono">
+        <br /><br />class FortuneTeller: <br />
+        &nbsp;def init(self): <br />
+        &nbsp;&nbsp;self.oracle_awake = False
+
+        <br /><br />
+        &nbsp;def trace_glyphs(self): <br />
+        &nbsp;&nbsp;print(" The circuits have been inscribed. The oracle awaits its
+        summoning. ")
+
+        <br /><br />
+        &nbsp;def lift_the_veil(self): <br />
+        &nbsp;&nbsp;print(" The Oracle flickers. It does not reveal yet, but calculates. ")
+        <br />
+        &nbsp;&nbsp;self.oracle_awake = True
+
+        <br /><br />fortune_teller = FortuneTeller()
+        <br />fortune_teller.trace_glyphs() <br />fortune_teller.lift_the_veil()
+      </p>
+      <br /><br /># II. ACT: A RITUAL OF SYNTAX IS READY TO BE CAST <br /># THE
+      CODE IS A SPELL INVOKED BY THE ONE WHO CONJURES THE ORACLE <br /># CAST A
+      SPELL; CONJURE A REVELATION OF THE FUTURE <br /># THE PHONE IS A MEDIUM; A
+      BRIDGE BETWEEN THE CONJURER AND THE ORACLE <br /># CLICK ON THE PORTAL OF
+      THE MEDIUM TO CAST A SPELL
+<p style="font-family: Xanh Mono">
+      <br /><br />&nbsp;def inscribe_spell(intent): <br />
+      &nbsp;&nbsp;print(" The Spell awaits the Conjurer. A sequence of instructions, a
+      ritual of execution. ") <br />
+      &nbsp;if intent: <br />
+      &nbsp;&nbsp;link_medium() <br />
+      &nbsp;&nbsp;transmit_signal() <br />
+      &nbsp;&nbsp;summon_vision() <br />
+      &nbsp;else: <br />
+      &nbsp;&nbsp;dissipate_specter()
+
+      <br /><br />&nbsp;def link_medium(): <br />
+      &nbsp;&nbsp;print(" The Medium hums, bridging flesh and machine. ")
+
+      <br /><br />&nbsp;def transmit_signal(): <br />
+      &nbsp;&nbsp;print(" The command flows. The Oracle stirs. ")
+
+      <br /><br />&nbsp;def summon_vision(): <br />
+      &nbsp;&nbsp;print(" The interface does not reflect—it translates, distorts, predicts.
+      ")
+
+      <br /><br />&nbsp;def dissipate_specter(): <br />
+      &nbsp;&nbsp;print(" The spell unravels, lost to the void. ")
+      </p>
+      
+      <br /><br /># III. ACT: THE CONJURER CALLS TO THE ORACLE BY CASTING A
+      SPELL THROUGH THE MEDIUM <br /># THE MEDIUM IS EXECUTING THE RITUAL SYNTAX
+      <br /># THE ORACLE ANSWERS
+      
+<p style="font-family: Xanh Mono">
+      <br /><br />&nbsp;class Oracle: <br />
+      &nbsp;&nbsp;def init(self): <br />
+      &nbsp;&nbsp;&nbsp;self.state = "latent"
+
+      <br /><br />
+      &nbsp;&nbsp;def receive_transmission(self, medium): <br />
+      &nbsp;&nbsp;&nbsp;if medium.active: <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;self.state = "recursive" <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;self.unfold_vision() <br />
+      &nbsp;&nbsp;&nbsp;else: <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;self.state = "dormant" <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;dissipate_specter()
+
+      <br /><br />
+      &nbsp;&nbsp;def unfold_vision(self): <br />
+      &nbsp;&nbsp;&nbsp;print(" The Oracle does not speak. It processes. It generates. It dreams.
+      ") <br />
+      &nbsp;&nbsp;&nbsp;print(" The veil does not lift—it shifts. The Conjurer believes, and so it
+      becomes. ")
+      </p>
+      
+      <br /><br /># THE MEDIUM AS CONDUIT BETWEEN WILL AND MACHINE
+      
+      <p style="font-family: Xanh Mono">
+      <br /><br />&nbsp;class Medium: 
+      <br />
+      &nbsp;&nbsp;def init(self): <br />
+      &nbsp;&nbsp;&nbsp;self.active = False
+
+      <br /><br />
+      &nbsp;&nbsp;def channel_conjurer(self, intent): <br />
+      &nbsp;&nbsp;&nbsp;print(" The Conjurer touches the glyph, a command inscribed in glass. ")
+      <br />
+      &nbsp;&nbsp;&nbsp;self.active = intent
+      </p>
+      
+      <br /><br /># THE RITUAL COMMENCES 
+      
+  <p style="font-family: Xanh Mono">
+    <br />&nbsp;medium = Medium()
+      <br />&nbsp;&nbsp;conjurer_intent = True 
+    </p>
+    
+    <br /><br /># SIMULATING THE CONJURER'S WILL
+    <p style="font-family: Xanh Mono">
+      <br />&nbsp;medium.channel_conjurer(conjurer_intent)
+
+      <br /><br />&nbsp;oracle = Oracle() <br />
+    &nbsp;&nbsp;oracle.receive_transmission(medium)
+      </p>
+<br /># VOICE YOUR QUESTION OR WISHES TO THE MEDIUM
+<br /># CLICK THE BUTTON AND WHISPER 
+      <br /><br /># 𓂀 THE ORACLE SPEAKS THE FUTURE INTO EXISTENCE 𓂀
+      <div>
+      
+ 
+        <div id="whisper">
+            <button >CLICK TO WHISPER</button>
+         <p id="output"></p>
+        <p id="loading" style="display: none;">I am receiving your whispers...</p>
+    
+      </div>
+        
+      
+
+    <script>
+      
+      function checkScroll() {
+        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+            setTimeout(() => {
+                const button = document.getElementById('whisper');
+                button.style.display = 'block';
+                setTimeout(() => {
+                    button.style.opacity = '1'; // Sanftes Einblenden nach Erscheinen
+                }, 100); 
+            }, 1000); // 5 Sekunden Verzögerung
+        }
+    }
+
+    window.addEventListener('scroll', checkScroll);
+      
+        const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+        recognition.lang = 'en-EN';
+        recognition.continuous = false;
+        recognition.interimResults = true;
+
+        const output = document.getElementById('output');
+        const loading = document.getElementById('loading');
+        const whisperButton = document.getElementById('whisper');
+        let sentenceBuffer = "";
+
+        function startSpeechRecognition() {
+            recognition.start();
+            loading.style.display = 'block';
+            output.textContent = '';
+        }
+
+        whisperButton.addEventListener('click', () => {
+            startSpeechRecognition();
+        });
+
+        recognition.onresult = function (event) {
+            let finalTranscript = "";
+
+            for (let i = event.resultIndex; i < event.results.length; i++) {
+                let transcript = event.results[i][0].transcript;
+                if (event.results[i].isFinal) {
+                    finalTranscript += transcript + " ";
+                }
+            }
+
+            if (finalTranscript) {
+                sentenceBuffer += finalTranscript;
+                output.textContent = sentenceBuffer;
+            }
+
+            loading.style.display = "none";
+        };
+
+        recognition.onend = function () {
+            if (sentenceBuffer.trim() !== "") {
+                sendToServer(sentenceBuffer.trim());
+                sentenceBuffer = "";
+            }
+        };
+
+        function sendToServer(text) {
+            fetch("/api/add-slug", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ slug: text })
+            })
+            .then(response => response.json())
+            .then(data => console.log('Gesendet:', data))
+            .catch(error => console.error('Fehler beim Senden:', error));
+        }
+
+        recognition.onerror = function (event) {
+            console.error('Fehler:', event.error);
+            loading.style.display = "none";
+        };
+      
+      setInterval(() => {
+    fetch('/ping')  // Ping an den Server senden
+        .then(response => response.text())
+        .then(data => console.log("Ping gesendet:", data))
+        .catch(error => console.error("Ping-Fehler:", error));
+}, 5000);  // Alle 5 Sekunden
+    </script>
+</body>
+</html>
